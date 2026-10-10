@@ -1,0 +1,134 @@
+<header class="top">
+  <div class="wide bar">
+    <a routerLink="/" class="brand" (click)="closeMenu()">
+      <span class="mark" aria-hidden="true">م</span>
+      <span class="brand-text">
+        <strong>مسار أنجولار</strong>
+        <small>أكاديمية واجهات · عربي أولًا</small>
+      </span>
+    </a>
+
+    <div class="mid" [class.show]="menuOpen()">
+      <nav class="links" aria-label="التنقل الرئيسي">
+        <a routerLink="/" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">الرئيسية</a>
+        <a routerLink="/roadmap" routerLinkActive="on" (click)="closeMenu()">المسار</a>
+        <a routerLink="/dashboard" routerLinkActive="on" (click)="closeMenu()">لوحتي</a>
+        <a routerLink="/exercises" routerLinkActive="on" (click)="closeMenu()">تمارين</a>
+        <a routerLink="/projects" routerLinkActive="on" (click)="closeMenu()">المشاريع</a>
+        <a routerLink="/glossary" routerLinkActive="on" (click)="closeMenu()">مصطلحات</a>
+        <a routerLink="/structure" routerLinkActive="on" (click)="closeMenu()">هيكل المشروع</a>
+      </nav>
+      <div class="find" [class.open]="searchOpen()">
+        <label class="find-label" for="header-search">بحث</label>
+        <input
+          id="header-search"
+          type="search"
+          placeholder="ابحث هنا…"
+          autocomplete="off"
+          [ngModel]="q()"
+          (ngModelChange)="onQuery($event)"
+          (focus)="searchOpen.set(true)"
+          (keydown.escape)="closeSearch()"
+          (keydown.enter)="goFirst($event)"
+        />
+        @if (searchOpen() && q().trim()) {
+          <div class="panel" role="listbox" aria-label="نتائج البحث">
+            @if (empty()) {
+              <p class="empty">لا نتائج لـ «{{ q() }}»</p>
+            } @else {
+              @if (hits().lessons.length) {
+                <p class="group">دروس</p>
+                @for (item of hits().lessons; track item.id) {
+                  <a class="hit" [routerLink]="['/learn', item.id]" (click)="closeAll()">
+                    <strong>{{ item.title }}</strong>
+                    <span>{{ item.summary }}</span>
+                  </a>
+                }
+              }
+              @if (hits().exercises.length) {
+                <p class="group">تمارين</p>
+                @for (item of hits().exercises; track item.id) {
+                  <a class="hit" [routerLink]="['/exercises', item.id]" (click)="closeAll()">
+                    <strong>{{ item.title }}</strong>
+                  </a>
+                }
+              }
+              @if (hits().projects.length) {
+                <p class="group">مشاريع</p>
+                @for (item of hits().projects; track item.id) {
+                  <a class="hit" routerLink="/projects" [fragment]="item.id" (click)="closeAll()">
+                    <strong>{{ item.title }}</strong>
+                  </a>
+                }
+              }
+              @if (hits().terms.length) {
+                <p class="group">مصطلحات</p>
+                @for (item of hits().terms; track item.id) {
+                  <a class="hit" routerLink="/glossary" (click)="closeAll()">
+                    <strong class="en">{{ item.en }}</strong>
+                    <span>{{ item.ar }}</span>
+                  </a>
+                }
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="end">
+      <button
+        type="button"
+        class="theme"
+        (click)="theme.toggle()"
+        [attr.aria-label]="theme.theme() === 'dark' ? 'تفعيل الوضع النهاري' : 'تفعيل الوضع الليلي'"
+        [title]="theme.theme() === 'dark' ? 'نهاري' : 'ليلي'"
+      >
+        @if (theme.theme() === 'dark') {
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        } @else {
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z"/></svg>
+        }
+      </button>
+      <button
+        type="button"
+        class="burger"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="site-nav"
+        [attr.aria-label]="menuOpen() ? 'إغلاق القائمة' : 'فتح القائمة'"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<main id="main">
+  <router-outlet />
+</main>
+<footer class="foot">
+  <div class="wide foot-grid">
+    <div>
+      <strong>مسار أنجولار</strong>
+      <p>منصة عربية لتعلم الواجهات حتى Angular. إكمال المسار استعداد للعمل، وليس ضمان توظيف.</p>
+    </div>
+    <div>
+      <p class="col-title">تعلّم</p>
+      <a routerLink="/roadmap">الخريطة</a>
+      <a routerLink="/structure">هيكل المشروع</a>
+      <a routerLink="/ai">الذكاء الاصطناعي</a>
+      <a routerLink="/job">سوق العمل</a>
+      <a routerLink="/settings">الإعدادات</a>
+    </div>
+    <div>
+      <p class="col-title">مراجع</p>
+      <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer">Angular.dev</a>
+      <a href="https://developer.mozilla.org/" target="_blank" rel="noopener noreferrer">MDN</a>
+      <a href="https://roadmap.sh/angular" target="_blank" rel="noopener noreferrer">roadmap.sh</a>
+      <a href="https://www.w3schools.com/" target="_blank" rel="noopener noreferrer">W3Schools</a>
+      <a href="https://www.w3.org/" target="_blank" rel="noopener noreferrer">W3C</a>
+
+    </div>
+    
+  </div>
+</footer>

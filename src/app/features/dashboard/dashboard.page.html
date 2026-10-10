@@ -1,0 +1,73 @@
+<div class="wide">
+  <header class="head">
+    <p class="kicker">لوحتك</p>
+    <h1>أنت هنا. الخطوة التالية أوضح من قائمة دروس مفتوحة.</h1>
+    <app-progress-bar [value]="progress.overallPercent()" label="التقدم الكلي" />
+    <p>سلسلة أيام النشاط: {{ progress.progress().streakDays }} · دروس مكتملة {{ progress.completedCount() }} من {{ progress.totalLessons() }}</p>
+    <a class="btn" [routerLink]="continueLink()">{{ continueLabel() }}</a>
+    <p class="rec">الخطوة التالية المقترحة: {{ nextTitle() }}</p>
+  </header>
+
+  <section class="grid">
+    <article class="card">
+      <h2>المستويات</h2>
+      @for (level of content.getLevels(); track level.id) {
+        <div class="row">
+          <a [routerLink]="['/levels', level.id]">{{ level.title }}</a>
+          <app-progress-bar [value]="progress.levelPercent(level.id)" />
+        </div>
+      }
+    </article>
+    <article class="card">
+      <h2>محفوظات</h2>
+      @if (!bookmarks().length) {
+        <p class="empty">لا علامات بعد. احفظ درسًا أثناء القراءة.</p>
+      } @else {
+        <ul>
+          @for (lesson of bookmarks(); track lesson.id) {
+            <li><a [routerLink]="['/learn', lesson.id]">{{ lesson.title }}</a></li>
+          }
+        </ul>
+      }
+    </article>
+    <article class="card">
+      <h2>ملاحظات</h2>
+      @if (!notes().length) {
+        <p class="empty">لم تكتب ملاحظات بعد.</p>
+      } @else {
+        <ul>
+          @for (item of notes(); track item.id) {
+            <li>
+              <a [routerLink]="['/learn', item.id]">{{ item.title }}</a>
+              <p>{{ item.note }}</p>
+            </li>
+          }
+        </ul>
+      }
+    </article>
+    <article class="card">
+      <h2>نتائج الاختبارات</h2>
+      @if (!quizRows().length) {
+        <p class="empty">لم تُجرَ اختبارات بعد.</p>
+      } @else {
+        <ul>
+          @for (row of quizRows(); track row.id) {
+            <li>{{ row.title }} — {{ row.score }}/{{ row.total }} {{ row.passed ? 'ناجح' : 'غير ناجح' }}</li>
+          }
+        </ul>
+      }
+    </article>
+  </section>
+
+  <section class="card">
+    <h2>مهارات ظهرت في الدروس المكتملة</h2>
+    <ul class="chips">
+      @for (skill of skills(); track skill) {
+        <li>{{ skill }}</li>
+      }
+    </ul>
+    @if (!skills().length) {
+      <p class="empty">أكمل درسًا لتظهر المهارات هنا.</p>
+    }
+  </section>
+</div>

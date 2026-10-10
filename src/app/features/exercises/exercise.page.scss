@@ -1,0 +1,8 @@
+.paper { background: var(--bg-elev); border: 1px solid var(--line); border-radius: 20px; padding: 24px; margin-top: 24px; }
+.kicker { color: var(--brand-2); font-weight: 700; }
+.hint, .note { background: var(--bg-muted); padding: 12px; border-radius: 12px; }
+.btn, .ghost { border: 0; border-radius: 8px; padding: 8px 14px; margin: 8px 8px 0 0; }
+.btn { background: var(--cta); color: var(--cta-ink); font-weight: 700; }
+.ghost { background: var(--bg-muted); }
+.ok { color: var(--ok); font-weight: 600; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--steel); outline-offset: 2px; }

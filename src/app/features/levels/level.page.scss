@@ -1,0 +1,9 @@
+.crumbs { display: flex; gap: 8px; color: var(--ink-soft); padding-top: 24px; }
+.head { }
+.kicker { color: var(--brand-2); font-weight: 700; }
+.lock { background: var(--bg-muted); padding: 12px; border-radius: 12px; }
+.mod { background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin: 16px 0; }
+.list { list-style: none; padding: 0; }
+.list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.list p { margin: 4px 0 0; color: var(--ink-soft); }
+a:focus-visible { outline: 3px solid var(--steel); outline-offset: 2px; }

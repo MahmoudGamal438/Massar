@@ -1,0 +1,28 @@
+<div class="wide paper">
+  <p class="kicker">جاهز لسوق العمل</p>
+  <h1>قائمة تحقق، لا وعود توظيف</h1>
+  <p>{{ content.path.disclaimer }}</p>
+  <h2>قبل ما تقدّم</h2>
+  <ul>
+    <li>مستودع GitHub فيه README يشرح المشكلة والحل والتشغيل.</li>
+    <li>مشروعان على الأقل منشوران أو مسجّلان بجودة عرض.</li>
+    <li>قدرة على شرح قرار تقني وتنازل واضح.</li>
+    <li>أساسيات Git: فرع، Pull Request، ورسالة commit مفهومة.</li>
+  </ul>
+  <h2>المقابلة</h2>
+  <p>
+    تدرب على شرح مشروع بقالب مشكلة-حل-نتيجة من درس
+    <a routerLink="/learn/l10-interview">{{ content.getLessonById('l10-interview')?.title }}</a>.
+  </p>
+  <h2>قائمة تحقق</h2>
+  <ul>
+    <li>README يشرح المشكلة والحل والتشغيل بدون أسرار.</li>
+    <li>حالات تحميل وخطأ وفراغ في الشاشات التي تجلب بيانات.</li>
+    <li>مسار يمكن شرحه في مقابلة بقالب مشكلة-حل-تنازل-قياس.</li>
+    <li>اختبار وحدة لقاعدة واحدة على الأقل في خدمة.</li>
+  </ul>
+  <h2>شبكة تقييم المشروع النهائي</h2>
+  <p>راجع درس <a routerLink="/learn/l10-rubric">{{ content.getLessonById('l10-rubric')?.title }}</a> قبل التسليم.</p>
+  <h2>المشروع النهائي</h2>
+  <p><a routerLink="/projects" fragment="p-capstone">افتح متطلبات المشروع النهائي</a></p>
+</div>

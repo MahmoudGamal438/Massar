@@ -1,0 +1,19 @@
+<div class="wide paper">
+  <p class="kicker">الذكاء الاصطناعي للمطورين</p>
+  <h1>المساعد لا يعرف مشروعك حتى تشرح له</h1>
+  <p>استخدم الأداة لتسريع الفهم والمسودة، ثم اختبر بنفسك. الكود الخاطئ يبدو واثقًا.</p>
+  <ul>
+    <li>حدد الإصدار: هذه المنصة Angular 19 وstandalone.</li>
+    <li>امنع اختراع مكتبات وBackend إن لم تطلبهما.</li>
+    <li>لا تلصق مفاتيح أو أسرارًا.</li>
+  </ul>
+  <h2>Prompt ضعيف</h2>
+  <app-code-block language="text" code="اكتب لي Angular للدروس" />
+  <h2>Prompt محسّن</h2>
+  <app-code-block language="text" [code]="goodPrompt" />
+  <p>
+    درس تطبيقي:
+    <a routerLink="/learn/l9-prompts">{{ content.getLessonById('l9-prompts')?.title }}</a>
+  </p>
+  <p class="note">آخر مراجعة لمحتوى هذه الصفحة: أكتوبر 2026. أدوات الذكاء الاصطناعي تتغير؛ تحقق من وثائق الأداة قبل نسخ أوامر التثبيت.</p>
+</div>

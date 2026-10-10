@@ -1,0 +1,24 @@
+<div class="wide">
+  <header class="head">
+    <p class="kicker">مشاريع</p>
+    <h1>لا يوجد حل نهائي جاهز للنسخ الأعمى</h1>
+    <p>كل مشروع يحدد المشكلة والمتطلبات ومعايير القبول. ابنِ بنفسك، ثم طوّر.</p>
+  </header>
+  @for (project of content.getProjects(); track project.id) {
+    <article class="card" [id]="project.id">
+      <p class="kicker">{{ project.difficulty }} · {{ levelTitle(project.levelId) }}</p>
+      <h2>{{ project.title }}</h2>
+      <p>{{ project.problem }}</p>
+      <h3>قصص المستخدم</h3>
+      <ul>@for (s of project.stories; track s) { <li>{{ s }}</li> }</ul>
+      <h3>المتطلبات</h3>
+      <ul>@for (s of project.requirements; track s) { <li>{{ s }}</li> }</ul>
+      <h3>معايير القبول</h3>
+      <ul>@for (s of project.acceptance; track s) { <li>{{ s }}</li> }</ul>
+      <h3>مهارات</h3>
+      <p>{{ project.skills.join('، ') }}</p>
+      <h3>أفكار لاحقة</h3>
+      <ul>@for (s of project.extras; track s) { <li>{{ s }}</li> }</ul>
+    </article>
+  }
+</div>

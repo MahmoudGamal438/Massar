@@ -1,0 +1,11 @@
+<div class="wrap">
+  @if (label) {
+    <div class="row">
+      <span>{{ label }}</span>
+      <span>{{ value }}%</span>
+    </div>
+  }
+  <div class="track" role="progressbar" [attr.aria-valuenow]="value" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="label || 'التقدم'">
+    <div class="fill" [style.width.%]="value"></div>
+  </div>
+</div>

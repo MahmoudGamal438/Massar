@@ -1,0 +1,17 @@
+<div class="wide paper">
+  <p class="kicker">الإعدادات</p>
+  <h1>تفضيلات هذا المتصفح</h1>
+  <p>لا يوجد حساب سحابي في هذه النسخة. الثيم والتقدم يُحفظان محليًا.</p>
+  <section>
+    <h2>المظهر</h2>
+    <button type="button" class="btn" (click)="theme.toggle()">
+      الوضع الحالي: {{ theme.theme() === 'dark' ? 'داكن' : 'فاتح' }} — تبديل
+    </button>
+  </section>
+  <section>
+    <h2>التقدم المحلي</h2>
+    <p>دروس مكتملة: {{ progress.completedCount() }} من {{ progress.totalLessons() }}</p>
+    <p>سلسلة الأيام: {{ progress.progress().streakDays }}</p>
+    <p class="note">مسح بيانات الموقع من المتصفح يحذف التقدم. لا يوجد زر حذف تلقائي هنا احترامًا لقاعدة عدم تنفيذ عمليات حذف صامتة.</p>
+  </section>
+</div>

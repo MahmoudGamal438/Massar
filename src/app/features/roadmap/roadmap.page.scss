@@ -1,0 +1,16 @@
+.head { padding: 36px 0 12px; }
+.head h1 { font-weight: 800; }
+.kicker { color: var(--brand-2); font-weight: 700; }
+.path { list-style: none; padding: 0; display: grid; gap: 16px; }
+.node { display: grid; grid-template-columns: 10px 1fr; gap: 12px; }
+.rail { border-radius: 99px; }
+.card { background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+.locked { opacity: 0.72; }
+.top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.badge { background: var(--bg-muted); padding: 4px 10px; border-radius: 999px; font-size: 0.85rem; }
+.ok { background: color-mix(in srgb, var(--ok) 20%, var(--bg-elev)); }
+.lessons { padding: 0; list-style: none; display: grid; gap: 6px; }
+.lessons li { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px dashed var(--line); padding-bottom: 4px; }
+.btn { display: inline-block; margin-top: 12px; background: var(--brand); color: var(--brand-ink); padding: 8px 14px; border-radius: 8px; font-weight: 600; }
+.meta, .done { color: var(--ink-soft); font-size: 0.9rem; }
+a:focus-visible { outline: 3px solid var(--steel); outline-offset: 2px; }

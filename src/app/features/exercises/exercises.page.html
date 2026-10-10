@@ -1,0 +1,25 @@
+<div class="wide">
+  <header class="head">
+    <p class="kicker">تمارين وتحديات</p>
+    <h1>جرّب قبل ما تفتح الحل</h1>
+    <p>تحديات قصيرة بعد الدرس: تلميح ثم حل مشروح. التشغيل الآمن لكودك داخل Sandbox غير متوفر في هذه النسخة ونصرّح بذلك بوضوح.</p>
+  </header>
+  @for (level of content.getLevels(); track level.id) {
+    @if (content.getExercisesByLevel(level.id).length) {
+      <section class="card">
+        <h2>{{ level.title }}</h2>
+        <ul>
+          @for (item of content.getExercisesByLevel(level.id); track item.id) {
+            <li>
+              <a [routerLink]="['/exercises', item.id]">{{ item.title }}</a>
+              <span>{{ item.difficulty }}</span>
+              @if (progress.progress().completedExercises.includes(item.id)) {
+                <span class="ok">مكتمل</span>
+              }
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  }
+</div>

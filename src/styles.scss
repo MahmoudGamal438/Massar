@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --font-ar: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+  --font-en: 'Cairo', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --navy: #01152a;
+  --navy-2: #081728;
+  --navy-3: #1d3149;
+  --steel: #6f97bf;
+  --steel-deep: #4f78a8;
+  --foam: #f7f9fc;
+
+  --bg: #f4f7fb;
+  --bg-elev: #ffffff;
+  --bg-muted: #e8eef6;
+  --ink: #081728;
+  --ink-soft: #3d5168;
+  --line: #d3deea;
+  --brand: #1d3149;
+  --brand-ink: #ffffff;
+  --brand-2: #4f78a8;
+  --brand-3: #4f78a8;
+  --accent: #6f97bf;
+  --warn: #c47b00;
+  --ok: #1f7a3a;
+  --danger: #c62828;
+  --shadow: 0 10px 28px rgba(8, 23, 40, 0.08);
+  --radius: 14px;
+  --header-h: 72px;
+  --grid: 8px;
+  --header-bg: #ffffff;
+  --header-ink: #081728;
+  --header-muted: #3d5168;
+  --header-line: #d3deea;
+  --cta: #1d3149;
+  --cta-ink: #ffffff;
+  --hero-grad: none;
+  --footer-bg: #01152a;
+  --footer-ink: #c5d3e3;
+}
+
+html[data-theme='dark'] {
+  --bg: #01152a;
+  --bg-elev: #0f2238;
+  --bg-muted: #10233a;
+  --ink: #f7f9fc;
+  --ink-soft: #a2b6df;
+  --line: #2a415c;
+  --brand: #6f97bf;
+  --brand-ink: #01152a;
+  --brand-2: #6f97bf;
+  --brand-3: #6f97bf;
+  --accent: #6f97bf;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  --header-bg: #01152a;
+  --header-ink: #f7f9fc;
+  --header-muted: #a2b6df;
+  --header-line: #1d3149;
+  --cta: #6f97bf;
+  --cta-ink: #01152a;
+  --footer-bg: #001329;
+  --footer-ink: #c5d3e3;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  min-width: 0;
+  color: var(--ink);
+  font-family: var(--font-ar);
+  line-height: 1.7;
+}
+
+html {
+  direction: rtl;
+  overflow-x: clip;
+}
+
+body {
+  background: var(--bg);
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+code,
+pre,
+.ltr,
+.en {
+  direction: ltr;
+  text-align: left;
+  font-family: var(--font-mono);
+}
+
+pre {
+  margin: 0;
+  overflow: auto;
+  background: #081728;
+  color: #e8eef6;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+html[data-theme='dark'] pre {
+  background: #04101c;
+}
+
+.container,
+.wide {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-inline: 28px;
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: 12px;
+  top: -40px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+@media (max-width: 720px) {
+  .container,
+  .wide {
+    padding-inline: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container,
+  .wide {
+    padding-inline: 12px;
+  }
+
+  h1 {
+    font-size: clamp(1.45rem, 7vw, 2rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

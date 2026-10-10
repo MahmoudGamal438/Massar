@@ -1,0 +1,189 @@
+@if (lesson(); as lesson) {
+  <div class="layout wide">
+    <aside class="side" aria-label="دروس المستوى">
+      <p class="kicker">{{ level()?.title }}</p>
+      <nav>
+        @for (item of levelLessons(); track item.id) {
+          <a [routerLink]="['/learn', item.id]" [class.on]="item.id === lesson.id">
+            {{ item.title }}
+            @if (progress.isLessonComplete(item.id)) { <span>✓</span> }
+          </a>
+        }
+      </nav>
+    </aside>
+
+    <article class="paper">
+      <nav class="crumbs">
+        <a routerLink="/roadmap">المسار</a>
+        <span>/</span>
+        <a [routerLink]="['/levels', lesson.levelId]">{{ level()?.title }}</a>
+      </nav>
+      <header>
+        <h1>{{ lesson.title }}</h1>
+        <p>{{ lesson.summary }}</p>
+        <p class="meta">{{ lesson.durationMinutes }} دقيقة · {{ lesson.objectives.length }} أهداف</p>
+        <div class="tools">
+          <button type="button" (click)="progress.toggleBookmark(lesson.id)">
+            {{ progress.isBookmarked(lesson.id) ? 'إزالة العلامة' : 'حفظ الدرس' }}
+          </button>
+        </div>
+      </header>
+
+      <section>
+        <h2>أهداف التعلم</h2>
+        <ul>@for (o of lesson.objectives; track o) { <li>{{ o }}</li> }</ul>
+      </section>
+
+      @if (lesson.prerequisites.length) {
+        <section>
+          <h2>راجع قبل البدء</h2>
+          <ul>
+            @for (p of lesson.prerequisites; track p) {
+              <li><a [routerLink]="['/learn', p]">{{ content.getLessonById(p)?.title || p }}</a></li>
+            }
+          </ul>
+        </section>
+      }
+
+      <nav class="toc" aria-label="أقسام هذا الدرس">
+        <p>في هذا الدرس</p>
+        <ol>
+          @for (section of lesson.sections; track section.id) {
+            <li><a [href]="'#' + section.id">{{ section.title }}</a></li>
+          }
+        </ol>
+      </nav>
+
+      @for (section of lesson.sections; track section.id; let i = $index) {
+        <section class="teach" [id]="section.id">
+          <h2><span class="sec-num">{{ i + 1 }}</span> {{ section.title }}</h2>
+          @if (section.body) {
+            @for (p of splitBody(section.body); track $index) {
+              <p>{{ p }}</p>
+            }
+          }
+          @if (section.bullets?.length) {
+            <ul class="teach-list">
+              @for (item of section.bullets; track item) { <li>{{ item }}</li> }
+            </ul>
+          }
+          @if (section.steps?.length) {
+            <ol class="steps">
+              @for (step of section.steps; track step.title) {
+                <li>
+                  <strong>{{ step.title }}</strong>
+                  <span>{{ step.text }}</span>
+                </li>
+              }
+            </ol>
+          }
+          @if (section.table; as table) {
+            <div class="table-wrap">
+              @if (table.caption) { <p class="caption">{{ table.caption }}</p> }
+              <table>
+                <thead>
+                  <tr>@for (h of table.headers; track h) { <th>{{ h }}</th> }</tr>
+                </thead>
+                <tbody>
+                  @for (row of table.rows; track $index) {
+                    <tr>@for (cell of row; track $index) { <td>{{ cell }}</td> }</tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+          @if (section.compare; as cmp) {
+            <div class="compare">
+              <div class="bad">
+                <h3>{{ cmp.badTitle || 'خطأ شائع' }}</h3>
+                <pre><code>{{ cmp.bad }}</code></pre>
+              </div>
+              <div class="good">
+                <h3>{{ cmp.goodTitle || 'الصحيح' }}</h3>
+                <pre><code>{{ cmp.good }}</code></pre>
+              </div>
+              @if (cmp.note) { <p class="explain">{{ cmp.note }}</p> }
+            </div>
+          }
+          @if (section.code; as code) {
+            <app-code-block [code]="code.code" [language]="code.language" [filename]="code.filename || ''" />
+            @if (code.explanation) { <p class="explain">{{ code.explanation }}</p> }
+          }
+          @if (section.callout; as callout) {
+            <p class="callout" [attr.data-type]="callout.type">{{ callout.text }}</p>
+          }
+        </section>
+      }
+
+      @if (lesson.terms.length) {
+        <section>
+          <h2>مصطلحات</h2>
+          <dl>
+            @for (term of lesson.terms; track term.en) {
+              <dt class="en">{{ term.en }} — {{ term.ar }}</dt>
+              <dd>{{ term.definition }}</dd>
+            }
+          </dl>
+        </section>
+      }
+
+      <section class="note-box">
+        <h2>ملاحظاتك</h2>
+        <label>
+          اكتب ملاحظة خاصة بهذا الدرس
+          <textarea rows="4" [ngModel]="note()" (ngModelChange)="note.set($event); saveNote()"></textarea>
+        </label>
+      </section>
+
+      @if (exercise()) {
+        <p><a class="btn ghost" [routerLink]="['/exercises', lesson.exerciseId]">التمرين المرتبط</a></p>
+      }
+      @if (quiz(); as quiz) {
+        <section>
+          <h2>اختبر فهمك</h2>
+          <form (submit)="submitQuiz($event)">
+            @for (question of quiz.questions; track question.id; let i = $index) {
+              <fieldset>
+                <legend>{{ question.prompt }}</legend>
+                @for (opt of question.options; track opt; let oi = $index) {
+                  <label class="opt">
+                    <input type="radio" [name]="question.id" [value]="oi" (change)="selectAnswer(question.id, oi)" />
+                    {{ opt }}
+                  </label>
+                }
+                @if (quizResult(); as result) {
+                  <p class="explain">{{ question.explanation }}</p>
+                }
+              </fieldset>
+            }
+            <button class="btn" type="submit">تصحيح الاختبار</button>
+          </form>
+          @if (quizResult(); as result) {
+            <p>النتيجة {{ result.score }} من {{ result.total }} — {{ result.passed ? 'نجحت' : 'أعد المحاولة بعد مراجعة الدرس' }}</p>
+          }
+        </section>
+      }
+
+      <div class="complete">
+        @if (progress.isLessonComplete(lesson.id)) {
+          <p class="ok">هذا الدرس مكتمل.</p>
+        } @else if (progress.canCompleteLesson(lesson.id)) {
+          <button class="btn" type="button" (click)="progress.completeLesson(lesson.id)">تعليم كمكتمل</button>
+        } @else {
+          <p class="hint">أكمل التمرين والاختبار المرتبطين قبل احتساب الدرس. مجرد الفتح لا يكفي.</p>
+        }
+      </div>
+
+      <nav class="pager">
+        @if (adjacent().prev; as prev) {
+          <a [routerLink]="['/learn', prev.id]">السابق: {{ prev.title }}</a>
+        } @else { <span></span> }
+        @if (adjacent().next; as next) {
+          <a [routerLink]="['/learn', next.id]">التالي: {{ next.title }}</a>
+        }
+      </nav>
+    </article>
+  </div>
+} @else {
+  <p class="wide">الدرس غير موجود. <a routerLink="/roadmap">الخريطة</a></p>
+}

@@ -1,0 +1,43 @@
+<div class="wide paper">
+  @if (exercise(); as ex) {
+    <nav class="crumbs"><a routerLink="/roadmap">المسار</a></nav>
+    <p class="kicker">{{ ex.difficulty }}</p>
+    <h1>{{ ex.title }}</h1>
+    <p>{{ ex.prompt }}</p>
+    <p><strong>المفاهيم:</strong> {{ ex.concepts.join('، ') }}</p>
+    @if (ex.lessonId) {
+      <p><a [routerLink]="['/learn', ex.lessonId]">الدرس المرتبط</a></p>
+    }
+    @if (ex.starterCode) {
+      <h2>نقطة بداية</h2>
+      <app-code-block [code]="ex.starterCode" language="javascript" />
+    }
+
+    <section>
+      <h2>تلميحات متدرجة</h2>
+      @for (hint of visibleHints(); track hint) {
+        <p class="hint">{{ hint }}</p>
+      }
+      @if (hintCount() < ex.hints.length) {
+        <button type="button" class="ghost" (click)="showHint()">أظهر تلميحًا</button>
+      }
+    </section>
+
+    <p class="note">هذه النسخة لا تشغّل كودك في بيئة آمنة. قارن حلك بالحل بعد المحاولة، ولا تعتبر الفتح إكمالًا.</p>
+
+    @if (!revealed()) {
+      <button type="button" class="btn" (click)="revealed.set(true)">أظهر الحل بعد محاولتي</button>
+    } @else {
+      <h2>الحل</h2>
+      <app-code-block [code]="ex.solution" language="text" />
+      <p>{{ ex.solutionExplanation }}</p>
+      @if (!progress.progress().completedExercises.includes(ex.id)) {
+        <button type="button" class="btn" (click)="complete()">علّم التمرين مكتملًا</button>
+      } @else {
+        <p class="ok">التمرين مكتمل.</p>
+      }
+    }
+  } @else {
+    <p>التمرين غير موجود.</p>
+  }
+</div>

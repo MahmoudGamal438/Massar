@@ -1,0 +1,7 @@
+<div class="block">
+  <div class="meta">
+    <span class="name">{{ filename || language }}</span>
+    <button type="button" (click)="copy()">{{ copied ? 'تم النسخ' : 'نسخ' }}</button>
+  </div>
+  <pre><code>{{ code }}</code></pre>
+</div>

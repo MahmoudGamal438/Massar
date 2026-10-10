@@ -1,0 +1,69 @@
+<div class="wide">
+  @if (level(); as level) {
+    <nav class="crumbs" aria-label="مسار التنقل">
+      <a routerLink="/roadmap">المسار</a>
+      <span>/</span>
+      <span>{{ level.title }}</span>
+    </nav>
+    <header class="head">
+      <p class="kicker">المستوى {{ level.order }}</p>
+      <h1>{{ level.title }}</h1>
+      <p>{{ level.description }}</p>
+      @if (!progress.isLevelUnlocked(level.id)) {
+        <p class="lock">المستوى مقفل حتى تحقق نسبة الإتقان في المستوى السابق.</p>
+      }
+      <app-progress-bar [value]="progress.levelPercent(level.id)" label="إنجاز المستوى" />
+    </header>
+
+    <section>
+      <h2>الأهداف</h2>
+      <ul>@for (goal of level.goals; track goal) { <li>{{ goal }}</li> }</ul>
+    </section>
+    <section>
+      <h2>معايير الإتقان</h2>
+      <ul>@for (item of level.masteryCriteria; track item) { <li>{{ item }}</li> }</ul>
+    </section>
+
+    @for (module of content.getModules(level.id); track module.id) {
+      <section class="mod">
+        <h2>{{ module.title }}</h2>
+        <p>{{ module.description }}</p>
+        <ul class="list">
+          @for (lesson of content.getLessonsByModule(module.id); track lesson.id) {
+            <li>
+              <div>
+                <a [routerLink]="['/learn', lesson.id]">{{ lesson.title }}</a>
+                <p>{{ lesson.summary }}</p>
+              </div>
+              <span>{{ lesson.durationMinutes }} د</span>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    @if (content.getExercisesByLevel(level.id).length) {
+      <section>
+        <h2>تمارين</h2>
+        <ul>
+          @for (ex of content.getExercisesByLevel(level.id); track ex.id) {
+            <li><a [routerLink]="['/exercises', ex.id]">{{ ex.title }}</a> · {{ ex.difficulty }}</li>
+          }
+        </ul>
+      </section>
+    }
+
+    @if (content.getProjectsByLevel(level.id).length) {
+      <section>
+        <h2>مشاريع المستوى</h2>
+        <ul>
+          @for (project of content.getProjectsByLevel(level.id); track project.id) {
+            <li><a routerLink="/projects" [fragment]="project.id">{{ project.title }}</a></li>
+          }
+        </ul>
+      </section>
+    }
+  } @else {
+    <p>المستوى غير موجود. <a routerLink="/roadmap">ارجع للخريطة</a></p>
+  }
+</div>

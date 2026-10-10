@@ -1,0 +1,24 @@
+<div class="wide">
+  <header class="head">
+    <p class="kicker">مصطلحات</p>
+    <h1>المصطلح الإنجليزي كما سيظهر في الشغل</h1>
+    <label>
+      ابحث في المصطلحات
+      <input type="search" [ngModel]="q()" (ngModelChange)="q.set($event)" />
+    </label>
+  </header>
+  @for (term of filtered(); track term.id) {
+    <article class="card">
+      <h2 class="en">{{ term.en }} <span>{{ term.ar }}</span></h2>
+      <p>{{ term.definition }}</p>
+      @if (linkedLessons(term).length) {
+        <p>
+          دروس:
+          @for (lesson of linkedLessons(term); track lesson.id) {
+            <a [routerLink]="['/learn', lesson.id]">{{ lesson.title }}</a>
+          }
+        </p>
+      }
+    </article>
+  }
+</div>

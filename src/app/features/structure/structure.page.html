@@ -1,0 +1,86 @@
+<div class="wide layout">
+  <aside class="side">
+    <p class="kicker">{{ intro.kicker }}</p>
+    <h2>الشجرة</h2>
+    <nav aria-label="ملفات الهيكل">
+      @for (item of toc; track item.id) {
+        <a class="toc" [class.dir]="item.kind === 'dir'" [style.padding-inline-start.px]="8 + item.depth * 14" [href]="'#' + item.id">{{ item.name }}</a>
+      }
+    </nav>
+  </aside>
+  <article class="paper">
+    <p class="kicker">{{ intro.kicker }}</p>
+    <h1>{{ intro.title }}</h1>
+    <p class="lead">{{ intro.lead }}</p>
+    <h2>قواعد لا تتغير مع اسم المشروع</h2>
+    <ul>
+      @for (rule of intro.principles; track rule) {
+        <li>{{ rule }}</li>
+      }
+    </ul>
+    <p class="hint">الشجرة لمشروع Angular 19 standalone احترافي (متجر أو لوحة أو أكاديمية). مرّ على الملفات بالترتيب أو اقفز من القائمة.</p>
+
+    <h2>ماذا يحدث عند فتح الصفحة؟</h2>
+    <ol class="life">
+      @for (step of lifecycle; track step.title) {
+        <li>
+          <strong>{{ step.title }}</strong>
+          <p>{{ step.text }}</p>
+        </li>
+      }
+    </ol>
+
+    <h2>أوامر CLI التي تبني هذه الشجرة</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>الأمر</th><th>المعنى</th></tr>
+        </thead>
+        <tbody>
+          @for (row of cli; track row.cmd) {
+            <tr>
+              <td class="en">{{ row.cmd }}</td>
+              <td>{{ row.meaning }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <h2>أخطاء شائعة في الهيكل</h2>
+    <div class="compare">
+      @for (row of mistakes; track row.bad) {
+        <article class="bad"><h3>خطأ</h3><p>{{ row.bad }}</p></article>
+        <article class="good"><h3>الصحيح</h3><p>{{ row.good }}</p></article>
+      }
+    </div>
+
+    @for (node of files; track node.id) {
+      <section class="file" [id]="node.id">
+        <p class="path">
+          <span class="kind">{{ node.kind === 'dir' ? 'مجلد' : 'ملف' }}</span>
+          <span class="en">{{ node.name }}</span>
+        </p>
+        <h2>{{ node.name }}</h2>
+        <p class="why">{{ node.why }}</p>
+        <p>{{ node.details }}</p>
+        @if (node.typical) {
+          <h3>مثال</h3>
+          <app-code-block [code]="node.typical" [language]="node.language || 'ts'" [filename]="node.name" />
+        }
+        @if (node.exampleExplain) {
+          <h3>شرح المثال</h3>
+          <p>{{ node.exampleExplain }}</p>
+        }
+        @if (node.usage?.length) {
+          <h3>طريقة الاستخدام</h3>
+          <ol class="usage">
+            @for (step of node.usage; track step) {
+              <li>{{ step }}</li>
+            }
+          </ol>
+        }
+      </section>
+    }
+  </article>
+</div>

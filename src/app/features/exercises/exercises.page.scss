@@ -1,0 +1,6 @@
+.head { padding: 32px 0 8px; }
+.kicker { color: var(--brand-2); font-weight: 700; }
+.card { background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin: 12px 0; }
+li { display: flex; gap: 12px; justify-content: space-between; flex-wrap: wrap; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.ok { color: var(--ok); }
+a:focus-visible { outline: 3px solid var(--steel); outline-offset: 2px; }

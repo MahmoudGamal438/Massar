@@ -1,0 +1,5 @@
+.paper { padding: 32px 0 48px; }
+.kicker { color: var(--brand-2); font-weight: 700; }
+.btn { background: var(--cta); color: var(--cta-ink); border: 0; border-radius: 8px; padding: 12px 18px; font-weight: 700; }
+.note { color: var(--ink-soft); }
+button:focus-visible { outline: 3px solid var(--steel); outline-offset: 2px; }

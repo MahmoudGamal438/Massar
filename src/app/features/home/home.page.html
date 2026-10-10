@@ -1,0 +1,104 @@
+<section class="hero">
+  <div class="wide grid">
+    <div>
+      <p class="eyebrow">مسار أنجولار · منصة تعلم الواجهات</p>
+      <h1>تعلّم Angular<br>من الصفر حتى التطبيق</h1>
+      <p class="lead">{{ content.path.subtitle }}</p>
+      <p>{{ content.path.description }}</p>
+      <div class="row">
+        <a class="btn" [routerLink]="startLink()">{{ startLabel() }}</a>
+        <a class="btn ghost" routerLink="/roadmap">شاهد الخريطة</a>
+      </div>
+      <app-progress-bar [value]="progress.overallPercent()" label="إنجازك الحالي على الدروس المتاحة" />
+    </div>
+    <aside class="hero-card" aria-label="طريقة التعلم">
+      <p class="badge">تجربة عملية</p>
+      <h2>كيف تتعلم هنا؟</h2>
+      <ol>
+        @for (item of content.path.method; track item) {
+          <li>{{ item }}</li>
+        }
+      </ol>
+      <p class="note">{{ content.path.disclaimer }}</p>
+    </aside>
+  </div>
+  <div class="wide stats">
+    @for (stat of stats; track stat.label) {
+      <div class="stat">
+        <strong>{{ stat.value }}</strong>
+        <span>{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="wide block">
+  <header class="sec-head">
+    <h2>المسار من الصفر حتى سوق العمل</h2>
+    <p>اختر المستوى المناسب وابدأ رحلة تعلم منظمة خطوة بخطوة.</p>
+  </header>
+  <div class="levels">
+    @for (level of content.getLevels(); track level.id) {
+      <a class="card" [routerLink]="['/levels', level.id]">
+        <span class="num">{{ level.order }}</span>
+        <h3>{{ level.title }}</h3>
+        <p>{{ level.tagline }}</p>
+        <app-progress-bar [value]="progress.levelPercent(level.id)" />
+      </a>
+    }
+  </div>
+</section>
+
+<section class="wide block">
+  <header class="sec-head">
+    <h2>أدوات التعلم في المنصة</h2>
+    <p>كل جزء مصمم ليحل مشكلة حقيقية أثناء بناء واجهات Angular.</p>
+  </header>
+  <div class="tools">
+    @for (tool of tools; track tool.title) {
+      <a class="tool" [routerLink]="tool.link">
+        <span class="tag">{{ tool.tag }}</span>
+        <h3>{{ tool.title }}</h3>
+        <p>{{ tool.text }}</p>
+        <span class="go">افتح الآن</span>
+      </a>
+    }
+  </div>
+</section>
+
+<section class="wide split">
+  <div>
+    <h2>مهارات ستخرج بها</h2>
+    <ul class="chips">
+      @for (skill of skills; track skill) {
+        <li>{{ skill }}</li>
+      }
+    </ul>
+  </div>
+  <div>
+    <h2>مشاريع ستنفّذها</h2>
+    <ul class="proj">
+      @for (project of content.getProjects(); track project.id) {
+        <li><a [routerLink]="['/projects']" [fragment]="project.id">{{ project.title }}</a> — {{ project.problem }}</li>
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="wide faq">
+  <h2>أسئلة شائعة</h2>
+  @for (item of faqs; track item.q) {
+    <details>
+      <summary>{{ item.q }}</summary>
+      <p>{{ item.a }}</p>
+    </details>
+  }
+</section>
+
+<section class="cta-band">
+  <div class="wide">
+    <h2>ابدأ رحلتك الآن</h2>
+    <p>مسار عربي واضح، دروس بمتن حقيقي، وتمارين لا تُحتسب بمجرد الفتح.</p>
+    <a class="btn" [routerLink]="startLink()">{{ startLabel() }}</a>
+  </div>
+</section>

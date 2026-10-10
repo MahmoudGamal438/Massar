@@ -1,0 +1,52 @@
+<div class="wide">
+  <header class="head">
+    <p class="kicker">خريطة المسار</p>
+    <h1>كل مستوى يفتح اللي بعده بإنجاز حقيقي</h1>
+    <p>فتح الدرس وحده لا يُحتسب إتقانًا. الإكمال بعد التمرين أو الاختبار المرتبط بالدرس.</p>
+    <app-progress-bar [value]="progress.overallPercent()" label="التقدم الكلي" />
+  </header>
+
+  <ol class="path">
+    @for (level of content.getLevels(); track level.id) {
+      @let unlocked = progress.isLevelUnlocked(level.id);
+      @let percent = progress.levelPercent(level.id);
+      <li class="node" [class.locked]="!unlocked">
+        <div class="rail" [style.background]="level.color"></div>
+        <article class="card">
+          <div class="top">
+            <h2>{{ level.order }}. {{ level.title }}</h2>
+            @if (!unlocked) {
+              <span class="badge">مقفل — أكمل {{ previousName(level.order) }} بنسبة {{ previousUnlock(level.order) }}%</span>
+            } @else if (percent === 100) {
+              <span class="badge ok">مكتمل</span>
+            } @else {
+              <span class="badge">متاح</span>
+            }
+          </div>
+          <p>{{ level.description }}</p>
+          <app-progress-bar [value]="percent" />
+          <p class="meta">{{ content.getLessonsByLevel(level.id).length }} دروس · {{ level.estimatedHours }} ساعة تقديرية</p>
+          <p><strong>مهارات:</strong> {{ level.skills.join('، ') }}</p>
+          <p><strong>متطلبات:</strong> {{ level.prerequisites.join('، ') }}</p>
+          <ul class="lessons">
+            @for (lesson of content.getLessonsByLevel(level.id); track lesson.id) {
+              <li>
+                @if (unlocked) {
+                  <a [routerLink]="['/learn', lesson.id]">{{ lesson.title }}</a>
+                } @else {
+                  <span>{{ lesson.title }}</span>
+                }
+                @if (progress.isLessonComplete(lesson.id)) {
+                  <span class="done">مكتمل</span>
+                }
+              </li>
+            }
+          </ul>
+          @if (unlocked) {
+            <a class="btn" [routerLink]="['/levels', level.id]">فتح المستوى</a>
+          }
+        </article>
+      </li>
+    }
+  </ol>
+</div>
